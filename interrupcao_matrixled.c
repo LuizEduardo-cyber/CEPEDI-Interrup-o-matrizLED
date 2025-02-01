@@ -38,6 +38,7 @@ int main()
 
 
     while (true) {
+        printf("A= %d \n",a);
         gpio_put(LED_RED,true);
         sleep_ms(200);
         gpio_put(LED_RED,false);
@@ -51,7 +52,7 @@ void gpio_irq_handler(uint gpio, uint32_t events){
    
 
     uint32_t current_time = to_us_since_boot(get_absolute_time());
-    printf("A= %d \n",a);
+  
   if (current_time - last_time > 300000) {
      last_time = current_time;
    switch(gpio){
