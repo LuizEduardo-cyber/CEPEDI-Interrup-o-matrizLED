@@ -110,6 +110,9 @@ void gpio_irq_handler(uint gpio, uint32_t events){
 
   ```
 A função void gpio_irq_handler tem como objetivo fazer com que ocorra as ações no pushbotton e na matriz de LED enquanto occore o loop principal. current_time e last_time tem como função fazer o debounce para controlar a acção do pushbotton e evita alguns problemas. switch(gpio) para dividir ca função de A para incrementar e B para decrementar. switch(a) para fazer o controle e sizcornizar as animações com o contador "a".
+## Diagrama de Conexões 💡:
+
+https://drive.google.com/file/d/1MCG_Vfk13kZax5y6Qc4J7jIw00iS9PUv/view?usp=drive_link
 
 ## Próximos Passos ➡️
 
