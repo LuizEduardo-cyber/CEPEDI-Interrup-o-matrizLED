@@ -37,15 +37,16 @@ Este projeto implementa uma interrupção que ao clicar no pushbotton A incremen
 
 ## Funcionamento do Loop Principal 🔄 
 ```
-while (true) {
+
+    while (true) {
+        printf("A= %d \n",a);
         gpio_put(LED_RED,true);
         sleep_ms(200);
         gpio_put(LED_RED,false);
         sleep_ms(200);
     }
-}
   ```
-O loop while (true) garante execução contínua. sleep_ms(200) introduz um pequeno atraso para o liga/desliga do LED. a funcão gpio_put(} define se o LED estará ligado ou desligado.
+O loop while (true) garante execução contínua. sleep_ms(200) introduz um pequeno atraso para o liga/desliga do LED. a funcão gpio_put(} define se o LED estará ligado ou desligado. printf tem como função exibir contador.
 
 ## Funcionamento da interrupção.
 ```
@@ -53,7 +54,7 @@ void gpio_irq_handler(uint gpio, uint32_t events){
    
 
     uint32_t current_time = to_us_since_boot(get_absolute_time());
-    printf("A= %d \n",a);
+  
   if (current_time - last_time > 300000) {
      last_time = current_time;
    switch(gpio){
@@ -101,11 +102,12 @@ void gpio_irq_handler(uint gpio, uint32_t events){
     default:
        a=0;
         break;
+     
   }
   }
   
-    }
 }
+
   ```
 A função void gpio_irq_handler tem como objetivo fazer com que ocorra as ações no pushbotton e na matriz de LED enquanto occore o loop principal. current_time e last_time tem como função fazer o debounce para controlar a acção do pushbotton e evita alguns problemas. switch(gpio) para dividir ca função de A para incrementar e B para decrementar. switch(a) para fazer o controle e sizcornizar as animações com o contador "a".
 
