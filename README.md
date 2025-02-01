@@ -1,76 +1,131 @@
-Luiz Eduardo - CEPEDI Tarefa 1 (27/01)
-Bem-vindo ao repositório da primeira tarefa do CEPEDI, desenvolvida por Luiz Eduardo em 27 de janeiro. Este projeto demonstra o uso de temporizadores no Raspberry Pi Pico para controlar um display de matriz de LEDs.
+# Projeto Interrupção com pushbotton e uma matriz de Led 🚀
 
-Descrição do Projeto
-O objetivo deste projeto é controlar uma matriz de LEDs utilizando o Raspberry Pi Pico. O código principal está implementado no arquivo interrupcao_matrixled.c, que gerencia a exibição de padrões na matriz de LEDs através de interrupções e temporizadores.
+Este projeto implementa uma interrupção que ao clicar no pushbotton A incrementa um contador e B que decremeta, e que automaticamente aparece na matriz de Led os numeros de 0 a 9, e tudo isso acontece enquanto o led RGB pisca em um loop infinito.
 
-Estrutura do Repositório
-/contador: Contém arquivos relacionados à funcionalidade de contagem.
-/neopixel: Inclui arquivos para controle de LEDs Neopixel.
-interrupcao_matrixled.c: Código principal para controle da matriz de LEDs.
-interrupcao_matrixled.h: Cabeçalho associado ao código principal.
-CMakeLists.txt: Arquivo de configuração para compilação do projeto.
-pico_sdk_import.cmake: Arquivo para importação do SDK do Pico.
-.vscode/: Configurações do Visual Studio Code.
-.gitignore: Arquivo para especificar quais arquivos ou pastas devem ser ignorados pelo Git.
-Funcionamento do Código Principal
-O arquivo interrupcao_matrixled.c é responsável por controlar a matriz de LEDs utilizando interrupções temporizadas. A seguir, uma visão geral do funcionamento do código:
+## Hardware 🛠️
 
-Configuração Inicial:
+- Microcontrolador RP2040 (Raspberry Pi Pico).
+- pushbotton.
+- Display NeoPixel RGB 5x5.
+- LED RGB.
 
-Inicializa a comunicação serial para depuração.
-Configura os pinos GPIO necessários para controlar as linhas e colunas da matriz de LEDs.
-Definição de Padrões:
+## Software 💻
 
-Define padrões ou animações que serão exibidos na matriz de LEDs.
-Configuração do Temporizador:
+* **SDK do Raspberry Pi Pico:** O SDK (Software Development Kit) do Pico, que inclui as bibliotecas e ferramentas necessárias para desenvolver e compilar o código. [Instruções de instalação](https://www.raspberrypi.com/documentation/pico/getting-started/)
+* **CMake:** Um sistema de construção multiplataforma usado para gerar os arquivos de construção do projeto.
+* **Compilador C/C++:**  Um compilador C/C++ como o GCC (GNU Compiler Collection).
+* **Git:** (Opcional) Para clonar o repositório do projeto.
 
-Utiliza um temporizador para gerar interrupções em intervalos regulares.
-A cada interrupção, o código atualiza o estado da matriz de LEDs para criar a animação desejada.
-Loop Principal:
 
-O loop principal do programa permanece em execução, enquanto as atualizações da matriz são gerenciadas pelas interrupções do temporizador.
-Como Executar o Projeto
-Clone o repositório:
+### O código está dividido em vários arquivos para melhor organização:
 
-bash
-Copiar
-Editar
-git clone https://github.com/LuizEduardo-cyber/Luiz-Eduardo-CEPEDI-tarefa1-27-01.git
-Navegue até o diretório do projeto:
+- **`interrupcao_matrixled.C`**: Código com a função de loop principal: gera as animações de 0 a 9 ao clicar nos pushbotton e ao mesmo tempo os Leds cotinuam piscando 5 vezes em 1 segundo.
+- **`contador.c/.h`:** Funções de animação para os numeros de 0 a 9.
+- **`neopixel.c/.h`:** Controla o display NeoPixel (inicialização e envio de cores).
+- **`CMakeLists.txt`:** Define a estrutura do projeto para o CMake.
 
-bash
-Copiar
-Editar
-cd Luiz-Eduardo-CEPEDI-tarefa1-27-01
-Configure o ambiente de desenvolvimento:
 
-Certifique-se de ter o SDK do Raspberry Pi Pico instalado.
-Configure as variáveis de ambiente conforme necessário.
-Compile o projeto:
 
-bash
-Copiar
-Editar
-mkdir build
-cd build
-cmake ..
-make
-Carregue o firmware:
+## Como Compilar e Executar ⚙️
 
-Conecte o Raspberry Pi Pico ao computador em modo de armazenamento USB.
-Copie o arquivo .uf2 gerado para o dispositivo.
-Execute o projeto:
+1. **Instale o SDK do Raspberry Pi Pico:** Siga as instruções no site oficial do Raspberry Pi.
+2. **Clone este repositório:** `https://github.com/LuizEduardo-cyber/CEPEDI-Interrup-o-matrizLED.git`
+3. **Navegue até o diretório do projeto:** `cd CEPEDI-Interrup-o-matrizLED`
+4. **Compile o projeto:** `cmake -B build && cmake --build build`
+5. **Copie para o Pico:** Copie o conteúdo da pasta `build` (gerada após a compilação) para o Raspberry Pi Pico. O programa iniciará automaticamente.
 
-Após o carregamento, o código será executado automaticamente no Raspberry Pi Pico, controlando a matriz de LEDs conforme programado.
-Contribuição
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests. Por favor, siga as diretrizes de contribuição antes de fazer alterações.
 
-Licença
-Este projeto está licenciado sob a [Nome da Licença]. Consulte o arquivo LICENSE para obter mais informações.
+## Funcionamento do Loop Principal 🔄 
+```
+while (true) {
+        gpio_put(LED_RED,true);
+        sleep_ms(200);
+        gpio_put(LED_RED,false);
+        sleep_ms(200);
+    }
+}
+  ```
+O loop while (true) garante execução contínua. sleep_ms(200) introduz um pequeno atraso para o liga/desliga do LED. a funcão gpio_put(} define se o LED estará ligado ou desligado.
 
-Contato
-Para dúvidas ou sugestões, entre em contato através do e-mail: [seu-email@example.com].
+## Funcionamento da interrupção.
+```
+void gpio_irq_handler(uint gpio, uint32_t events){
+   
 
-Vídeo Demonstrativo
-Para uma demonstração visual do projeto, assista ao vídeo abaixo:
+    uint32_t current_time = to_us_since_boot(get_absolute_time());
+    printf("A= %d \n",a);
+  if (current_time - last_time > 300000) {
+     last_time = current_time;
+   switch(gpio){
+      case BUTTON_A:
+       a++;
+       break;
+      case BUTTON_B:
+       a--;
+       break;
+      default:
+      break;
+   }
+    switch(a){
+    case 0:
+        A_0();
+        break;
+     case 1:
+        A_1();
+        break;
+     case 2:
+        A_2();
+        break;
+     case 3:
+        A_3();
+        break;
+     case 4:
+        A_4();
+        break;
+     case 5:
+        A_5();
+        break;
+     case 6:
+        A_6();
+        break;
+     case 7:
+        A_7();
+        break;
+     case 8:
+        A_8();
+        break;
+     case 9:
+        A_9();
+        break;
+   
+    default:
+       a=0;
+        break;
+  }
+  }
+  
+    }
+}
+  ```
+A função void gpio_irq_handler tem como objetivo fazer com que ocorra as ações no pushbotton e na matriz de LED enquanto occore o loop principal. current_time e last_time tem como função fazer o debounce para controlar a acção do pushbotton e evita alguns problemas. switch(gpio) para dividir ca função de A para incrementar e B para decrementar. switch(a) para fazer o controle e sizcornizar as animações com o contador "a".
+
+## Próximos Passos ➡️
+
+- Fazer mais numeros além do 0 ao 9.
+- implementar teclado matricial e sicronizar teclas com as animações.
+  
+ ## 🔗 Link do Vídeo de Funcionamento:
+ 
+
+ ## Contribuições 🤝
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
+
+## 📞 Contato
+
+- 👤 **Autor**: Luiz Eduardo Soares Ferreira.
+ 
+- 📧 **E-mail**: luizeduardosoaresferreira942@gmail.com 
+
+--- 
+
