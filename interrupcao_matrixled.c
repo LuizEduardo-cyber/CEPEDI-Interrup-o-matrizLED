@@ -9,8 +9,8 @@ const uint BUTTON_A = 5;
 const uint BUTTON_B = 6;
 
 #define tempo 200
-static volatile uint a = 0;
 static volatile uint32_t last_time = 0;
+ static volatile uint a = 0;
 
 void init_gpios(){
     gpio_init(LED_RED);
@@ -48,59 +48,61 @@ int main()
 }
 
 void gpio_irq_handler(uint gpio, uint32_t events){
-    uint32_t current_time = to_us_since_boot(get_absolute_time());
-  
-  if (current_time - last_time > 200000) {
-     last_time = current_time;
-    if(gpio==BUTTON_A){ 
-    printf("Incrementando = %d\n", a);
-    a++;  
-    }
+   
 
-    if(gpio==BUTTON_B){ 
-    printf("decrementando = %d\n", a);
-    a--;   
-    }
+    uint32_t current_time = to_us_since_boot(get_absolute_time());
+    printf("A= %d \n",a);
+  if (current_time - last_time > 300000) {
+     last_time = current_time;
+   switch(gpio){
+      case BUTTON_A:
+       a++;
+       break;
+      case BUTTON_B:
+       a--;
+       break;
+      default:
+      break;
+   }
     switch(a){
     case 0:
         A_0();
         break;
      case 1:
-        A_0();
-        break;
-     case 2:
         A_1();
         break;
-     case 3:
+     case 2:
         A_2();
         break;
-     case 4:
+     case 3:
         A_3();
         break;
-     case 5:
+     case 4:
         A_4();
         break;
-     case 6:
+     case 5:
         A_5();
         break;
-     case 7:
+     case 6:
         A_6();
         break;
-     case 8:
+     case 7:
         A_7();
         break;
-     case 9:
+     case 8:
         A_8();
         break;
-     case 10:
+     case 9:
         A_9();
         break;
+   
     default:
-    default_();
+       a=0;
         break;
      
   }
   }
+  
   
 
 }
