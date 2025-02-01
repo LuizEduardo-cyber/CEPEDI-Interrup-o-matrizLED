@@ -7,6 +7,7 @@ Este projeto implementa uma interrupção que ao clicar no pushbotton A incremen
 - Microcontrolador RP2040 (Raspberry Pi Pico).
 - pushbotton.
 - Display NeoPixel RGB 5x5.
+- LED RGB.
 
 ## Software 💻
 
