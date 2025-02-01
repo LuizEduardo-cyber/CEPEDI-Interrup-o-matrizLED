@@ -120,7 +120,7 @@ https://drive.google.com/file/d/1MCG_Vfk13kZax5y6Qc4J7jIw00iS9PUv/view?usp=drive
 - implementar teclado matricial e sicronizar teclas com as animações.
   
  ## 🔗 Link do Vídeo de Funcionamento:
- 
+ https://drive.google.com/file/d/1JxK2GQnYCOw1poWcpsvKzCNGIU2aGyAA/view?usp=drivesdk
 
  ## Contribuições 🤝
 
