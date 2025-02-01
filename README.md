@@ -23,7 +23,7 @@ Este projeto implementa uma interrupção que ao clicar no pushbotton A incremen
 - **`contador.c/.h`:** Funções de animação para os numeros de 0 a 9.
 - **`neopixel.c/.h`:** Controla o display NeoPixel (inicialização e envio de cores).
 - **`CMakeLists.txt`:** Define a estrutura do projeto para o CMake.
-- 
+
 
 
 ## Como Compilar e Executar ⚙️
